@@ -1,11 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { reducer } from "./todo.store"; // Assuming your reducer is properly typed
-
-// Define the type for the store
-export type RootState = ReturnType<typeof reducer>;
+import todosReducer from "./todo.store";
 
 const store = configureStore({
-  reducer: reducer,
+  reducer: {
+    todos: todosReducer,
+  },
 });
-
+export type AppDispatch = typeof store.dispatch;
 export default store;

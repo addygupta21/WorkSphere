@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import type { FC } from "react";
-import { STATUS } from "../constants/status";
+import { STATUS } from "../../shared/constants/status";
 import { FaCircle, FaSpinner, FaCheckCircle } from "react-icons/fa";
 import AddTodoModal from "./AddTodoModal";
-import {removeTodoThunk, updateTodoThunk } from "../redux/todo.store";
+import { removeTodoThunk, updateTodoThunk } from "../redux/todo.store";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/todo.store";
+import { AppDispatch } from "../redux/store";
 
 interface TodoItemProps {
   item: {
@@ -106,20 +106,66 @@ const TodoItem: FC<TodoItemProps> = (props) => {
       case STATUS.COMPLETED:
         return <FaCheckCircle className="status-icon" color="#2ecc71" />;
       default:
-        return <FaCircle className="status-icon" color="#gray" />;
+      //   return <FaCircle className="status-icon" color="#gray" />;
+      //  return <FaCircle className="status-icon" color="white" />;
+      case STATUS.NOT_STARTED:
+        return <FaCircle className="status-icon" color="white" />;
     }
   };
 
-  const getStatusText = () => {
-    switch (item.status) {
-      case STATUS.NOT_STARTED:
-        return "Not Started";
-      case STATUS.IN_PROGRESS:
-        return "In Progress";
-      case STATUS.COMPLETED:
-        return "Complete";
+  const getPriorityIndicator = () => {
+    switch (item.priority) {
+      case "High":
+        return (
+          <span
+            className="priority-indicator high"
+            style={{
+              marginLeft: "8px",
+              padding: "2px 6px",
+              borderRadius: "4px",
+              color: "#ff4d4f",
+              // color: "white",
+              fontWeight: "bold",
+              animation: "pulse 1s infinite",
+            }}
+          >
+            High
+          </span>
+        );
+      case "Medium":
+        return (
+          <span
+            className="priority-indicator medium"
+            style={{
+              marginLeft: "8px",
+              padding: "2px 6px",
+              borderRadius: "4px",
+              color: "#faad14",
+              // color: "white",
+              fontWeight: "bold",
+            }}
+          >
+            Medium
+          </span>
+        );
+      case "Low":
+        return (
+          <span
+            className="priority-indicator low"
+            style={{
+              marginLeft: "8px",
+              padding: "2px 6px",
+              borderRadius: "4px",
+              // backgroundColor: "#52c41a",
+              color: "#52c41a",
+              fontWeight: "bold",
+            }}
+          >
+            Low
+          </span>
+        );
       default:
-        return "Not Started";
+        return null;
     }
   };
 
@@ -164,6 +210,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
             <span></span>
             <span>{item.dueDate}</span>
           </div>
+          {getPriorityIndicator()}
           <button
             onClick={() => dispatch(removeTodoThunk(item.id))}
             className="delete-button"

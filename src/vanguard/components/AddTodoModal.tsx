@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {addTodoThunk,updateTodoThunk } from "../redux/todo.store";
+import { addTodoThunk, updateTodoThunk } from "../redux/todo.store";
 import { GoX } from "react-icons/go";
-import { AppDispatch } from "../redux/todo.store";
+import { AppDispatch } from "../redux/store";
 
 interface AddTodoModalProps {
   onClose: () => void;
