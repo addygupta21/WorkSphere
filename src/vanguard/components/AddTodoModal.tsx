@@ -3,19 +3,14 @@ import { useDispatch } from "react-redux";
 import { addTodoThunk, updateTodoThunk } from "../redux/todo.store";
 import { GoX } from "react-icons/go";
 import { AppDispatch } from "../redux/store";
+import { Todo } from "../../types";
+import bridge from "../../shared/bridges/bridge";
 
 interface AddTodoModalProps {
   onClose: () => void;
-  todo?: {
-    id: number;
-    item: string;
-    description: string;
-    dueDate: string;
-    priority: string;
-    status: string;
-    completed: boolean;
-    subTodos: [];
-  };
+  todo?: 
+    Todo,
+  
 }
 
 const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
@@ -35,32 +30,57 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
     )
       return;
 
+    // if (todo) {
+    //   dispatch(
+    //     updateTodoThunk({
+    //       id: todo.id,
+    //       item: title,
+    //       description,
+    //       dueDate,
+    //       priority,
+    //       status: todo.status,
+    //       completed: todo.completed,
+    //       subTodos: [],
+    //     })
+    //   );
+    // } else {
+    //   dispatch(
+    //     addTodoThunk({
+    //       id: Date.now(),
+    //       item: title,
+    //       description,
+    //       dueDate,
+    //       priority,
+    //       status: "Not Started",
+    //       completed: false,
+    //       subTodos: [],
+    //     })
+    //   );
+    // }
+
     if (todo) {
-      dispatch(
-        updateTodoThunk({
-          id: todo.id,
-          item: title,
-          description,
-          dueDate,
-          priority,
-          status: todo.status,
-          completed: todo.completed,
-          subTodos: [],
-        })
-      );
+      // For editing, publish an "updateTodo" event with the updated todo.
+      const updatedTodo: Todo = {
+        ...todo,
+        item: title,
+        description,
+        dueDate,
+        priority,
+      };
+      bridge.publish("updateTodo", updatedTodo);
     } else {
-      dispatch(
-        addTodoThunk({
-          id: Date.now(),
-          item: title,
-          description,
-          dueDate,
-          priority,
-          status: "Not Started",
-          completed: false,
-          subTodos: [],
-        })
-      );
+      // For adding, publish an "addTodo" event.
+      const newTodo: Todo = {
+        id: Date.now(), // temporary ID; real ID comes from Dexie
+        item: title,
+        description,
+        dueDate,
+        priority,
+        status: "Not Started",
+        completed: false,
+        subTodos: [],
+      };
+      bridge.publish("addTodo", newTodo);
     }
     onClose();
   };

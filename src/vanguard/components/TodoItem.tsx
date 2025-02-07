@@ -6,17 +6,11 @@ import AddTodoModal from "./AddTodoModal";
 import { removeTodoThunk, updateTodoThunk } from "../redux/todo.store";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
+import { Todo } from "../../types";
+import bridge from "../../shared/bridges/bridge";
 
 interface TodoItemProps {
-  item: {
-    id: number;
-    item: string;
-    description: string;
-    completed: boolean;
-    status: string;
-    dueDate: string;
-    priority: string;
-  };
+  item: Todo,
 }
 
 const TodoItem: FC<TodoItemProps> = (props) => {
@@ -83,18 +77,26 @@ const TodoItem: FC<TodoItemProps> = (props) => {
         newCompleted = false;
     }
 
-    dispatch(
-      updateTodoThunk({
-        id: item.id,
-        item: item.item,
-        description: item.description,
-        status: newStatus,
-        completed: newCompleted,
-        dueDate: item.dueDate,
-        priority: item.priority,
-        subTodos: [],
-      })
-    );
+    // dispatch(
+    //   updateTodoThunk({
+    //     id: item.id,
+    //     item: item.item,
+    //     description: item.description,
+    //     status: newStatus,
+    //     completed: newCompleted,
+    //     dueDate: item.dueDate,
+    //     priority: item.priority,
+    //     subTodos: [],
+    //   })
+    // );
+    const updatedTodo: Todo = {
+      ...item,
+      status: newStatus,
+      completed: newCompleted,
+    };
+
+    // Publish an "updateTodo" event.
+    bridge.publish("updateTodo", updatedTodo);
   };
 
   const getStatusIcon = () => {

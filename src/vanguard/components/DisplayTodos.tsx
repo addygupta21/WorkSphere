@@ -9,13 +9,9 @@ import { Todo } from "../../types";
 import { AppDispatch } from "../redux/store";
 import todoService, {
 } from "../../tailgate/service/todo/todo.service";
+import bridge from "../../shared/bridges/bridge";
 import { selectTodos } from "../redux/todo.store";
-
-interface RootState {
-  todos: {
-    todo_list: Todo[];
-  };
-}
+import { updateTodoList } from "../redux/todo.store";
 
 const DisplayTodos: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,6 +22,17 @@ const DisplayTodos: React.FC = () => {
 
   useEffect(() => {
     todoService.setupSubscription(filter, sort, dispatch);
+    bridge.subscribe(
+      "todosFetched",
+      (topic, todos: Todo[]) => {
+        dispatch(updateTodoList(todos));
+      },
+      "todosFetchedListener"
+    );
+
+    return () => {
+      bridge.unsubscribe("todosFetchedListener");
+    };
   }, [dispatch, filter, sort]);
 
   return (

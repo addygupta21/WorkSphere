@@ -3,6 +3,7 @@ import * as TodoRepo from "./todo.repo";
 import { db } from "./todo.repo";
 import { liveQuery } from "dexie";
 import { Subscription } from "dexie";
+import bridge from "../../../shared/bridges/bridge";
 // import store from "../../../vanguard/redux/store";
 import { updateTodoList } from "../../../vanguard/redux/todo.store";
 
@@ -14,7 +15,9 @@ class TodoService {
     try {
       console.log("AddTodo Service Worked");
       await TodoRepo.addTodo(todo);
+      // bridge.publish("todoAdded", todo);
     } catch (err) {
+      // bridge.publish("addingTodoFailed", err);
       throw err;
     }
   }
@@ -50,11 +53,13 @@ class TodoService {
       (todos: Todo[]) => {
         if (todos) {
           console.log("live todos update from service", todos);
-          dispatch(updateTodoList(todos));
+          // dispatch(updateTodoList(todos));
+          bridge.publish("todosFetched", todos);
         }
       },
       (err) => {
         throw err;
+        bridge.publish("todosFetchFailed", err);
       }
     );
     // 4 use live query to sort and filter todo's
