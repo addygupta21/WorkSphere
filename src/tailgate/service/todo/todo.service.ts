@@ -59,7 +59,6 @@ class TodoService {
       },
       (err) => {
         throw err;
-        bridge.publish("todosFetchFailed", err);
       }
     );
     // 4 use live query to sort and filter todo's

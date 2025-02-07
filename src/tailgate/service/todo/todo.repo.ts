@@ -1,8 +1,8 @@
 import Dexie, { type Table } from "dexie";
 import { Todo } from "../../../types";
-// import { SORTING } from "../../../shared/constants/sorting";
+import { SORTING } from "../../../shared/constants/sorting";
 import { STATUS } from "../../../shared/constants/status";
-import bridge from "../../../shared/bridges/bridge";
+// import bridge from "../../../shared/bridges/bridge";
 
 const DB_NAME = "todoDBase";
 class Todo_DB extends Dexie {
@@ -27,11 +27,11 @@ export const addTodo = async (todo: Todo) => {
   })
     .then(() => {
       console.log("Transaction committed after addTodo");
-      bridge.publish("todoAdded", todo);
+      // bridge.publish("todoAdded", todo);
     })
     .catch((err) => {
       console.log("Transaction error in addTodo:", err);
-      bridge.publish("addingTodoFailed", err);
+      // bridge.publish("addingTodoFailed", err);
       throw err;
     });
 };
@@ -46,11 +46,11 @@ export const updateTodo = async (todo: Todo) => {
     })
     .then(() => {
       console.log("Transaction committed after updateTodo");
-      bridge.publish("todoUpdated", todo);
+      // bridge.publish("todoUpdated", todo);
     })
     .catch((error) => {
       console.error("Transaction error in updateTodo:", error);
-      bridge.publish("editingTodoFailed", error);
+      // bridge.publish("editingTodoFailed", error);
       throw error;
     });
 };
@@ -62,11 +62,11 @@ export const deleteTodo = async (id: number) => {
     })
     .then(() => {
       console.log("Transaction committed after deleteTodo");
-      bridge.publish("todoDeleted", id);
+      // bridge.publish("todoDeleted", id);
     })
     .catch((error) => {
       console.error("Transaction error in deleteTodo:", error);
-      bridge.publish("deletingTodoFailed", error);
+      // bridge.publish("deletingTodoFailed", error);
       throw error;
     });
 };
@@ -80,29 +80,29 @@ export const setupLiveQuery = (filter: string, sort: string) => {
       collection = db.todos.toCollection();
     }
 
-    // console.log(collection);
-    // if (sort === SORTING.PRIORITY) {
-    //   return await collection.sortBy("priority");
-    //   // console.log(todo1);
-    //   console.log(collection.sortBy("priority"));
-    //   // return todo1;
-    // } else if (sort === SORTING.DUE_DATE) {
-    //   return await collection.sortBy("dueDate");
-    // } else {
-    //   return await collection.toArray();
-    // }
-    let sortedData = await collection.toArray();
-    if (sort === "priority") {
-      sortedData = sortedData.sort((a, b) =>
-        a.priority.localeCompare(b.priority)
-      );
-    } else if (sort === "dueDate") {
-      sortedData = sortedData.sort((a, b) =>
-        a.dueDate.localeCompare(b.dueDate)
-      );
+    console.log(collection);
+    const todos = await collection.toArray();
+
+    // Sorting logic for priority (High > Medium > Low)
+    if (sort === SORTING.PRIORITY) {
+      return todos.sort((a, b) => {
+        const priorityOrder: { [key: string]: number } = {
+          high: 3,
+          medium: 2,
+          low: 1,
+        };
+        const priorityA = a.priority ? a.priority.toLowerCase() : "low";
+        const priorityB = b.priority ? b.priority.toLowerCase() : "low";
+        return priorityOrder[priorityB] - priorityOrder[priorityA]; // Sort in descending order (High > Medium > Low)
+      });
+    } else if (sort === SORTING.DUE_DATE) {
+      return todos.sort((a, b) => {
+        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+      });
     }
-    // Publish the updated list of todos via the bridge.
-    bridge.publish("todosFetched", sortedData);
-    return sortedData;
+    // If no sort option is selected, return all todos
+    else {
+      return todos;
+    }
   });
 };

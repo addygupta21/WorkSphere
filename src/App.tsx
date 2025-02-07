@@ -7,7 +7,6 @@ import { registerTodoListeners } from "./tailgate/listeners/listeners";
 
 const App: React.FC = () => {
   useEffect(() => {
-    // Register the tailgate listeners so that published events are handled.
     registerTodoListeners();
   }, []);
   return (

@@ -7,8 +7,7 @@ import { GoPlus } from "react-icons/go";
 import AddTodoModal from "./AddTodoModal";
 import { Todo } from "../../types";
 import { AppDispatch } from "../redux/store";
-import todoService, {
-} from "../../tailgate/service/todo/todo.service";
+import todoService from "../../tailgate/service/todo/todo.service";
 import bridge from "../../shared/bridges/bridge";
 import { selectTodos } from "../redux/todo.store";
 import { updateTodoList } from "../redux/todo.store";
@@ -22,22 +21,20 @@ const DisplayTodos: React.FC = () => {
 
   useEffect(() => {
     todoService.setupSubscription(filter, sort, dispatch);
-    bridge.subscribe(
+    const subscriptionToken = bridge.subscribe(
       "todosFetched",
-      (topic, todos: Todo[]) => {
+      (todos: Todo[]) => {
         dispatch(updateTodoList(todos));
-      },
-      "todosFetchedListener"
+      }
     );
 
     return () => {
-      bridge.unsubscribe("todosFetchedListener");
+      bridge.unsubscribe(subscriptionToken);
     };
   }, [dispatch, filter, sort]);
 
   return (
     <div className="displayTodos">
-      
       <div className="filter-contained">
         {/* <div className="head"> <h1> Todo APP</h1></div> */}
         <div className="filters">
