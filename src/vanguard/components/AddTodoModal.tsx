@@ -5,6 +5,7 @@ import { GoX } from "react-icons/go";
 import { AppDispatch } from "../redux/store";
 import { Todo } from "../../types";
 import { PRIORITY } from "../../shared/constants/priority";
+import { STATUS } from "../../shared/constants/status";
 
 interface AddTodoModalProps {
   onClose: () => void;
@@ -18,7 +19,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
   const [title, setTitle] = useState(todo?.item || "");
   const [description, setDescription] = useState(todo?.description || "");
   const [dueDate, setDueDate] = useState(todo?.dueDate || "");
-  const [priority, setPriority] = useState(todo?.priority || "High");
+  const [priority, setPriority] = useState(todo?.priority || PRIORITY.MEDIUM);
 
   const handleSaveTodo = () => {
     if (
@@ -50,7 +51,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
           description,
           dueDate,
           priority,
-          status: "Not Started",
+          status: STATUS.NOT_STARTED,
           completed: false,
           subTodos: [],
         })
