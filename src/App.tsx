@@ -1,5 +1,5 @@
 import React from "react";
-import "./vanguard/styles/main3.css";
+import "./vanguard/styles/main.css";
 import DisplayTodos from "./vanguard/components/DisplayTodos";
 import "./index.css";
 import { useEffect } from "react";
