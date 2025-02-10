@@ -735,10 +735,6 @@ justify-content: flex-start;
     color: white;
 }
 
-/* .filter-contained {
-    width: 100%;
-    height: auto;
-    /* position: fixed; */
 
     .filter-contained {
             /* width: 100%; */
@@ -835,22 +831,6 @@ justify-content: flex-start;
     outline: none;
     resize: none;
 }
-
-/* .edit-button,
-.delete-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.edit-button:hover,
-.delete-button:hover {
-  background-color: #0056b3;
-} */
 
 .due-date {
     display: flex;
