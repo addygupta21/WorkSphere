@@ -9,8 +9,7 @@ import { STATUS } from "../../shared/constants/status";
 
 interface AddTodoModalProps {
   onClose: () => void;
-  todo?: 
-    Todo,
+  todo?: Todo;
 }
 
 const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
@@ -22,49 +21,52 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
   const [priority, setPriority] = useState(todo?.priority || PRIORITY.MEDIUM);
 
   const handleSaveTodo = () => {
-    if (
-      title.trim() === "" ||
-      description.trim() === "" ||
-      dueDate.trim() === "" ||
-      priority.trim() === ""
-    )
+    let emptyFields: string[] = [];
+
+    if (title.trim() === "") emptyFields.push("Title");
+    if (description.trim() === "") emptyFields.push("Description");
+    if (dueDate.trim() === "") emptyFields.push("Due Date");
+    if (priority.trim() === "") emptyFields.push("Priority");
+
+    if (emptyFields.length > 0) {
+      alert(`${emptyFields.join(", ")} need(s) to be filled.`);
       return;
-    try{
- if (todo) {
-      dispatch(
-        updateTodoThunk({
-          id: todo.id,
-          item: title,
-          description,
-          dueDate,
-          priority,
-          status: todo.status,
-          completed: todo.completed,
-          subTodos: [],
-        })
-      );
-    } else {
-      dispatch(
-        addTodoThunk({
-          id: Date.now(),
-          item: title,
-          description,
-          dueDate,
-          priority,
-          status: STATUS.NOT_STARTED,
-          completed: false,
-          subTodos: [],
-        })
-      );
-    }
-    onClose();
-  }
-  catch(err){
-    console.error("Error saving todo:", err);
+    } 
+    try {
+      if (todo) {
+        dispatch(
+          updateTodoThunk({
+            id: todo.id,
+            item: title,
+            description,
+            dueDate,
+            priority,
+            status: todo.status,
+            completed: todo.completed,
+            subTodos: [],
+          })
+        );
+      } else {
+        dispatch(
+          addTodoThunk({
+            id: Date.now(),
+            item: title,
+            description,
+            dueDate,
+            priority,
+            status: STATUS.NOT_STARTED,
+            completed: false,
+            subTodos: [],
+          })
+        );
+      }
+      onClose();
+    } catch (err) {
+      console.error("Error saving todo:", err);
       alert("Failed to save the todo.");
-  }
     }
-   
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -107,7 +109,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
               }}
               className="todo-input-4"
             >
-              <option value= {PRIORITY.HIGH}>High</option>
+              <option value={PRIORITY.HIGH}>High</option>
               <option value={PRIORITY.MEDIUM}>Medium</option>
               <option value={PRIORITY.LOW}>Low</option>
             </select>

@@ -9,8 +9,7 @@ import { Todo } from "../../types";
 import { AppDispatch } from "../redux/store";
 import todoService from "../../tailgate/service/todo/todo.service";
 import bridge from "../../shared/bridges/bridge";
-import { selectTodos } from "../redux/todo.store";
-import { updateTodoList } from "../redux/todo.store";
+import { selectTodos, updateTodoList } from "../redux/todo.store";
 import { EVENTS } from "../../shared/constants/events";
 
 const DisplayTodos: React.FC = () => {

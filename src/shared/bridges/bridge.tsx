@@ -8,13 +8,13 @@ interface PubSub {
 
 const bridge: PubSub = (function (q) {
   const topics: Record<string, { token: string; func: Callback }[]> = {};  // Event -> {token, function}.
-  let subUid = -1;
+  let Uid = -1;
 
   q.subscribe = function (event, func) {
     if (!topics[event]) {
       topics[event] = [];
     }
-    const token = (++subUid).toString();
+    const token = (++Uid).toString();
     topics[event].push({ token, func });
     return token;  // After subscribing returns token to the subscriber.
   };

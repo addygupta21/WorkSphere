@@ -138,12 +138,13 @@ justify-content: flex-start;
 
 .todo-input-2 {
     flex: 1;
-    min-width: 35rem;
-    max-width: 100%;
+    /* min-width: 35rem; */
+    min-width: 25rem;
+    /* max-width: auto; */
     height: 4.5rem;
     background-color: #e1ebfd;
     border: 2px solid transparent;
-    border-radius: 25px;
+    /* border-radius: 25px; */
     padding: 0.8rem 1rem;
     transition: border 0.3s ease;
     margin: 0.5rem 0;
@@ -156,7 +157,7 @@ justify-content: flex-start;
     height: 2.5rem;
     background-color: #e1ebfd;
     border: 3px solid transparent;
-    border-radius: 100px;
+    /* border-radius: 100px; */
     padding: 0.8rem 1rem;
     transition: border 0.3s ease;
     margin: 0.5rem 0;
@@ -170,7 +171,7 @@ justify-content: flex-start;
     height: 0.5 rem;
     background-color: #e1ebfd;
     border: 3px solid transparent;
-    border-radius: 100px;
+    /* border-radius: 100px; */
     padding: 0.45rem 2rem;
     transition: border 0.3s ease;
     margin: 0.5rem 0;
@@ -260,13 +261,19 @@ justify-content: flex-start;
 }
 .todo-list-container {
     width: 100%;
-    max-height: 600px;
+    max-height: 625px;
     /* Adjust height as needed */
-    overflow-y: auto;
+    overflow-y: scroll;
     /* Enable vertical scrolling */
     padding-left: 0;
-    padding-right: 0;
+    padding-right: 2;
     margin-bottom: 0;
+}
+.todo-list-container::-webkit-scrollbar {
+    width: 0px;
+    /* Hide the scrollbar */
+    height: 0px;
+    /* Hide horizontal scrollbar */
 }
 
 .modal-overlay {
@@ -738,11 +745,13 @@ justify-content: flex-start;
             height: auto;
             overflow-y: auto;
             position: sticky;
-            top: 0;
+            top: 2;
+            /* border-bottom: 2px solid #000000; */
+            /* margin-bottom: 20px; */
             /* Stick the filter section to the top of the container */
-            z-index: 2;
+            /* z-index: 2; */
             /* Ensure it's above the list */
-            padding-bottom: 20px;
+            /* padding-bottom: 20px; */
             /* Add some space between the filter and the todo list */
             /* background: white; */
             /* Optional: background color for visibility */
