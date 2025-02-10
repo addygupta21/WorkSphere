@@ -60,6 +60,8 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     updateTodoList(state, action: PayloadAction<Todo[]>) {
+      console.log(action.payload);
+      console.log(state.todo_list);
       state.todo_list = [...action.payload];
     },
   },
@@ -75,6 +77,3 @@ export const selectTodos = createSelector(
   [selectTodoList],
   (todo_list) => todo_list
 );
-
-export const selectTodoById = (id: number) => (state: { todos: TodosState }) =>
-  state.todos.todo_list.find((todo) => todo.id === id);
