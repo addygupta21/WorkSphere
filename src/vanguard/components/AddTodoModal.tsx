@@ -4,7 +4,7 @@ import { addTodoThunk, updateTodoThunk } from "../redux/todo.store";
 import { GoX } from "react-icons/go";
 import { AppDispatch } from "../redux/store";
 import { Todo } from "../../types";
-import bridge from "../../shared/bridges/bridge";
+import { PRIORITY } from "../../shared/constants/priority";
 
 interface AddTodoModalProps {
   onClose: () => void;
@@ -29,61 +29,42 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
       priority.trim() === ""
     )
       return;
-
-    // if (todo) {
-    //   dispatch(
-    //     updateTodoThunk({
-    //       id: todo.id,
-    //       item: title,
-    //       description,
-    //       dueDate,
-    //       priority,
-    //       status: todo.status,
-    //       completed: todo.completed,
-    //       subTodos: [],
-    //     })
-    //   );
-    // } else {
-    //   dispatch(
-    //     addTodoThunk({
-    //       id: Date.now(),
-    //       item: title,
-    //       description,
-    //       dueDate,
-    //       priority,
-    //       status: "Not Started",
-    //       completed: false,
-    //       subTodos: [],
-    //     })
-    //   );
-    // }
-
-    if (todo) {
-      // For editing, publish an "updateTodo" event with the updated todo.
-      const updatedTodo: Todo = {
-        ...todo,
-        item: title,
-        description,
-        dueDate,
-        priority,
-      };
-      bridge.publish("updateTodo", updatedTodo);
+    try{
+ if (todo) {
+      dispatch(
+        updateTodoThunk({
+          id: todo.id,
+          item: title,
+          description,
+          dueDate,
+          priority,
+          status: todo.status,
+          completed: todo.completed,
+          subTodos: [],
+        })
+      );
     } else {
-      // For adding, publish an "addTodo" event.
-      const newTodo: Todo = {
-        id: Date.now(), // temporary ID; real ID comes from Dexie
-        item: title,
-        description,
-        dueDate,
-        priority,
-        status: "Not Started",
-        completed: false,
-        subTodos: [],
-      };
-      bridge.publish("addTodo", newTodo);
+      dispatch(
+        addTodoThunk({
+          id: Date.now(),
+          item: title,
+          description,
+          dueDate,
+          priority,
+          status: "Not Started",
+          completed: false,
+          subTodos: [],
+        })
+      );
     }
     onClose();
-  };
+  }
+  catch(err){
+    console.error("Error saving todo:", err);
+      alert("Failed to save the todo.");
+  }
+    }
+   
 
   return (
     <div className="modal-overlay">
@@ -127,9 +108,9 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
               }}
               className="todo-input-4"
             >
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
+              <option value= {PRIORITY.HIGH}>High</option>
+              <option value={PRIORITY.MEDIUM}>Medium</option>
+              <option value={PRIORITY.LOW}>Low</option>
             </select>
           </div>
 

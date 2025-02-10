@@ -7,7 +7,7 @@ import { removeTodoThunk, updateTodoThunk } from "../redux/todo.store";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
 import { Todo } from "../../types";
-import bridge from "../../shared/bridges/bridge";
+import { PRIORITY } from "../../shared/constants/priority";
 
 interface TodoItemProps {
   item: Todo,
@@ -77,26 +77,18 @@ const TodoItem: FC<TodoItemProps> = (props) => {
         newCompleted = false;
     }
 
-    // dispatch(
-    //   updateTodoThunk({
-    //     id: item.id,
-    //     item: item.item,
-    //     description: item.description,
-    //     status: newStatus,
-    //     completed: newCompleted,
-    //     dueDate: item.dueDate,
-    //     priority: item.priority,
-    //     subTodos: [],
-    //   })
-    // );
-    const updatedTodo: Todo = {
-      ...item,
-      status: newStatus,
-      completed: newCompleted,
-    };
-
-    // Publish an "updateTodo" event.
-    bridge.publish("updateTodo", updatedTodo);
+    dispatch(
+      updateTodoThunk({
+        id: item.id,
+        item: item.item,
+        description: item.description,
+        status: newStatus,
+        completed: newCompleted,
+        dueDate: item.dueDate,
+        priority: item.priority,
+        subTodos: [],
+      })
+    );
   };
 
   const getStatusIcon = () => {
@@ -108,8 +100,6 @@ const TodoItem: FC<TodoItemProps> = (props) => {
       case STATUS.COMPLETED:
         return <FaCheckCircle className="status-icon" color="#2ecc71" />;
       default:
-      //   return <FaCircle className="status-icon" color="#gray" />;
-      //  return <FaCircle className="status-icon" color="white" />;
       case STATUS.NOT_STARTED:
         return <FaCircle className="status-icon" color="white" />;
     }
@@ -117,7 +107,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
 
   const getPriorityIndicator = () => {
     switch (item.priority) {
-      case "High":
+      case PRIORITY.HIGH:
         return (
           <span
             className="priority-indicator high"
@@ -134,7 +124,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
             High
           </span>
         );
-      case "Medium":
+      case PRIORITY.MEDIUM:
         return (
           <span
             className="priority-indicator medium"
@@ -143,14 +133,14 @@ const TodoItem: FC<TodoItemProps> = (props) => {
               padding: "2px 6px",
               borderRadius: "4px",
               color: "#faad14",
-              // color: "white",
+            
               fontWeight: "bold",
             }}
           >
             Medium
           </span>
         );
-      case "Low":
+      case PRIORITY.LOW:
         return (
           <span
             className="priority-indicator low"
@@ -158,7 +148,6 @@ const TodoItem: FC<TodoItemProps> = (props) => {
               marginLeft: "8px",
               padding: "2px 6px",
               borderRadius: "4px",
-              // backgroundColor: "#52c41a",
               color: "#52c41a",
               fontWeight: "bold",
             }}

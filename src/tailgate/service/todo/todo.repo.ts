@@ -2,12 +2,10 @@ import Dexie, { type Table } from "dexie";
 import { Todo } from "../../../types";
 import { SORTING } from "../../../shared/constants/sorting";
 import { STATUS } from "../../../shared/constants/status";
-// import bridge from "../../../shared/bridges/bridge";
 
 const DB_NAME = "todoDBase";
 class Todo_DB extends Dexie {
   todos: Table<Todo, number>;
-
   constructor() {
     super(DB_NAME);
     this.version(4).stores({
@@ -27,11 +25,9 @@ export const addTodo = async (todo: Todo) => {
   })
     .then(() => {
       console.log("Transaction committed after addTodo");
-      // bridge.publish("todoAdded", todo);
     })
     .catch((err) => {
       console.log("Transaction error in addTodo:", err);
-      // bridge.publish("addingTodoFailed", err);
       throw err;
     });
 };
@@ -46,11 +42,9 @@ export const updateTodo = async (todo: Todo) => {
     })
     .then(() => {
       console.log("Transaction committed after updateTodo");
-      // bridge.publish("todoUpdated", todo);
     })
     .catch((error) => {
       console.error("Transaction error in updateTodo:", error);
-      // bridge.publish("editingTodoFailed", error);
       throw error;
     });
 };
@@ -62,11 +56,9 @@ export const deleteTodo = async (id: number) => {
     })
     .then(() => {
       console.log("Transaction committed after deleteTodo");
-      // bridge.publish("todoDeleted", id);
     })
     .catch((error) => {
       console.error("Transaction error in deleteTodo:", error);
-      // bridge.publish("deletingTodoFailed", error);
       throw error;
     });
 };
@@ -83,7 +75,6 @@ export const setupLiveQuery = (filter: string, sort: string) => {
     console.log(collection);
     const todos = await collection.toArray();
 
-    // Sorting logic for priority (High > Medium > Low)
     if (sort === SORTING.PRIORITY) {
       return todos.sort((a, b) => {
         const priorityOrder: { [key: string]: number } = {
@@ -99,9 +90,7 @@ export const setupLiveQuery = (filter: string, sort: string) => {
       return todos.sort((a, b) => {
         return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
       });
-    }
-    // If no sort option is selected, return all todos
-    else {
+    } else {
       return todos;
     }
   });

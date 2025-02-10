@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TodoItem from "./TodoItem";
-import { STATUS } from "../constants/status";
-import { SORTING } from "../constants/sorting";
+import { STATUS } from "../../shared/constants/status";
+import { SORTING } from "../../shared/constants/sorting";
 import { GoPlus } from "react-icons/go";
 import AddTodoModal from "./AddTodoModal";
 import { Todo } from "../../types";
@@ -11,6 +11,7 @@ import todoService from "../../tailgate/service/todo/todo.service";
 import bridge from "../../shared/bridges/bridge";
 import { selectTodos } from "../redux/todo.store";
 import { updateTodoList } from "../redux/todo.store";
+import { EVENTS } from "../../shared/constants/events";
 
 const DisplayTodos: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,17 +21,22 @@ const DisplayTodos: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
-    todoService.setupSubscription(filter, sort, dispatch);
-    const subscriptionToken = bridge.subscribe(
-      "todosFetched",
-      (todos: Todo[]) => {
-        dispatch(updateTodoList(todos));
-      }
-    );
+    try {
+      todoService.setupSubscription(filter, sort, dispatch);
+      const subscriptionToken = bridge.subscribe(
+        EVENTS.TODOS_FETCHED,
+        (todos: Todo[]) => {
+          dispatch(updateTodoList(todos));
+        }
+      );
 
-    return () => {
-      bridge.unsubscribe(subscriptionToken);
-    };
+      return () => {
+        bridge.unsubscribe(subscriptionToken);
+      };
+    } catch (err) {
+      console.error("Error subscribing to live todos:", err);
+      alert("Failed to subscribe to live todos.");
+    }
   }, [dispatch, filter, sort]);
 
   return (
