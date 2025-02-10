@@ -42,7 +42,6 @@ const DisplayTodos: React.FC = () => {
   return (
     <div className="displayTodos">
       <div className="filter-contained">
-        {/* <div className="head"> <h1> Todo APP</h1></div> */}
         <div className="filters">
           <select onChange={(e) => setFilter(e.target.value)} value={filter}>
             <option value={STATUS.ALL}>All</option>

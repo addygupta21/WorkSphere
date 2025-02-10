@@ -116,7 +116,6 @@ const TodoItem: FC<TodoItemProps> = (props) => {
               padding: "2px 6px",
               borderRadius: "4px",
               color: "#ff4d4f",
-              // color: "white",
               fontWeight: "bold",
               animation: "pulse 1s infinite",
             }}

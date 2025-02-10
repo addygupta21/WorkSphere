@@ -10,7 +10,6 @@ interface AddTodoModalProps {
   onClose: () => void;
   todo?: 
     Todo,
-  
 }
 
 const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
@@ -65,7 +64,6 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
   }
     }
    
-
   return (
     <div className="modal-overlay">
       <div className="modal-content">
