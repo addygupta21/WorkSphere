@@ -42,6 +42,7 @@ const DisplayTodos: React.FC = () => {
   return (
     <div className="displayTodos">
       <div className="filter-contained">
+        <h1>Todo App</h1>
         <div className="filters">
           <select onChange={(e) => setFilter(e.target.value)} value={filter}>
             <option value={STATUS.ALL}>All</option>
@@ -64,11 +65,14 @@ const DisplayTodos: React.FC = () => {
           </button>
         </div>
       </div>
-      <ul>
-        {(todos1 && Array.isArray(todos1) ? todos1 : []).map((todo) => (
-          <TodoItem key={todo.id} item={todo} />
-        ))}
-      </ul>
+      <div className="todo-list-container">
+        <ul>
+          {(todos1 && Array.isArray(todos1) ? todos1 : []).map((todo) => (
+            <TodoItem key={todo.id} item={todo} />
+          ))}
+        </ul>
+      </div>
+
       {showModal && <AddTodoModal onClose={() => setShowModal(false)} />}
     </div>
   );
