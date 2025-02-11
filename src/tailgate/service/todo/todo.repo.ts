@@ -20,8 +20,7 @@ export const db = new Todo_DB();
 
 export const addTodo = async (todo: Todo) => {
   db.transaction("rw", db.todos, async () => {
-    const id = await db.todos.add(todo);
-    return { ...todo, id };
+    await db.todos.add(todo);
   })
     .then(() => {
       console.log("Transaction committed after addTodo");
