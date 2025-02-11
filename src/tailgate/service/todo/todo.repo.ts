@@ -32,13 +32,12 @@ export const addTodo = async (todo: Todo) => {
 };
 
 export const updateTodo = async (todo: Todo) => {
-  return db
-    .transaction("rw", db.todos, async () => {
-      if (todo.id === undefined) {
-        throw new Error("Todo ID is required for update");
-      }
-      await db.todos.put(todo);
-    })
+  db.transaction("rw", db.todos, async () => {
+    if (todo.id === undefined) {
+      throw new Error("Todo ID is required for update");
+    }
+    await db.todos.put(todo);
+  })
     .then(() => {
       console.log("Transaction committed after updateTodo");
     })
@@ -49,10 +48,9 @@ export const updateTodo = async (todo: Todo) => {
 };
 
 export const deleteTodo = async (id: number) => {
-  return db
-    .transaction("rw", db.todos, async () => {
-      await db.todos.delete(id);
-    })
+  db.transaction("rw", db.todos, async () => {
+    await db.todos.delete(id);
+  })
     .then(() => {
       console.log("Transaction committed after deleteTodo");
     })
@@ -65,13 +63,13 @@ export const deleteTodo = async (id: number) => {
 export const setupLiveQuery = (filter: string, sort: string) => {
   return Dexie.liveQuery(async () => {
     let collection: Dexie.Collection<Todo, number>;
+
     if (filter !== STATUS.ALL) {
       collection = db.todos.where("status").equals(filter);
     } else {
       collection = db.todos.toCollection();
     }
 
-    console.log(collection);
     const todos = await collection.toArray();
 
     if (sort === SORTING.PRIORITY) {

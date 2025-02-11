@@ -69,7 +69,7 @@ const DisplayTodos: React.FC = () => {
       <div className="todo-list-container">
         <ul>
           {(todos1 && Array.isArray(todos1) ? todos1 : []).map((todo) => (
-            <TodoItem item={todo} />
+            <TodoItem key= {todo.id} item={todo} />
           ))}
         </ul>
       </div>

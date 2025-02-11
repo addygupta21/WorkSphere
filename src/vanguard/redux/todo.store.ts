@@ -61,7 +61,5 @@ export default todosSlice.reducer;
 export const selectTodoList = (state: { todos: TodosState }) =>
   state.todos.todo_list;
 
-export const selectTodos = createSelector(
-  [selectTodoList],
-  (todo_list) => todo_list
-);
+export const selectTodos = (state: { todos: TodosState }) =>
+  state.todos.todo_list;
