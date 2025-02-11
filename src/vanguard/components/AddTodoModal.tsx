@@ -31,7 +31,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
     if (emptyFields.length > 0) {
       alert(`${emptyFields.join(", ")} need(s) to be filled.`);
       return;
-    } 
+    }
     try {
       if (todo) {
         dispatch(
@@ -104,7 +104,6 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
             <select
               value={priority}
               onChange={(e) => {
-                // console.log("priority: ", e.target.value);
                 setPriority(e.target.value);
               }}
               className="todo-input-4"

@@ -10,42 +10,14 @@ import { Todo } from "../../types";
 import { PRIORITY } from "../../shared/constants/priority";
 
 interface TodoItemProps {
-  item: Todo,
+  item: Todo;
 }
 
 const TodoItem: FC<TodoItemProps> = (props) => {
   const { item } = props;
   const dispatch = useDispatch<AppDispatch>();
   const [showModal, setShowModal] = useState<boolean>(false);
-  // const [modalData, setModalData] = useState<{
-  //   title: string;
-  //   description: string;
-  //   dueDate: string;
-  //   priority: string;
-  //   status: string;
-  //   completed: boolean;
-  //   subTodos: [];
-  // }>({
-  //   title: item.item,
-  //   description: item.description,
-  //   dueDate: item.dueDate,
-  //   priority: item.priority,
-  //   status: item.status,
-  //   completed: item.completed,
-  //   subTodos: [],
-  // });
-
   const enableEditing = () => {
-    // setModalData({
-    //   title: item.item,
-    //   description: item.description,
-    //   dueDate: item.dueDate,
-    //   priority: item.priority,
-    //   status: item.status,
-    //   completed: item.completed,
-    //   subTodos: [],
-    // });
-
     setShowModal(true);
   };
 
@@ -132,7 +104,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
               padding: "2px 6px",
               borderRadius: "4px",
               color: "#faad14",
-            
+
               fontWeight: "bold",
             }}
           >
@@ -210,20 +182,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
         </div>
       </div>
       {showModal && (
-        <AddTodoModal
-          onClose={() => setShowModal(false)}
-          todo={{
-            // id: item.id,
-            ...item, // to keep store of the previous values of the form data.
-            // item: modalData.title,
-            // description: modalData.description,
-            // dueDate: modalData.dueDate,
-            // priority: modalData.priority,
-            // status: modalData.status,
-            // completed: modalData.completed,
-            // subTodos: [],
-          }}
-        />
+        <AddTodoModal onClose={() => setShowModal(false)} todo={{ ...item }} />
       )}
     </li>
   );
