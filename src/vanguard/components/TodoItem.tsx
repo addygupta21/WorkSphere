@@ -17,6 +17,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
   const { item } = props;
   const dispatch = useDispatch<AppDispatch>();
   const [showModal, setShowModal] = useState<boolean>(false);
+  
   const enableEditing = () => {
     setShowModal(true);
   };

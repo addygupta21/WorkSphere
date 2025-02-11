@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { createSelector } from "reselect";
 import bridge from "../../shared/bridges/bridge";
 import { EVENTS } from "../../shared/constants/events";
 import { Todo } from "../../types";
