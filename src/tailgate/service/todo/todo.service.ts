@@ -1,12 +1,8 @@
 import { Todo } from "../../../types";
 import * as TodoRepo from "./todo.repo";
-import { db } from "./todo.repo";
-import { liveQuery } from "dexie";
 import { Subscription } from "dexie";
 import bridge from "../../../shared/bridges/bridge";
 import { EVENTS } from "../../../shared/constants/events";
-
-export const setupTodoSubscription = liveQuery(() => db.todos.toArray());
 
 class TodoService {
   subscription?: Subscription;

@@ -104,7 +104,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
             <select
               value={priority}
               onChange={(e) => {
-                console.log("priority: ", e.target.value);
+                // console.log("priority: ", e.target.value);
                 setPriority(e.target.value);
               }}
               className="todo-input-4"

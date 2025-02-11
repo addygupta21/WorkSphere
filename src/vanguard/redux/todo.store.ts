@@ -2,17 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import bridge from "../../shared/bridges/bridge";
 import { EVENTS } from "../../shared/constants/events";
-
-interface Todo {
-  id: number;
-  item: string;
-  description: string;
-  dueDate: string;
-  priority: string;
-  status: string;
-  completed: boolean;
-  subTodos: Todo[];
-}
+import { Todo } from "../../types";
 
 interface TodosState {
   todo_list: Todo[];
@@ -60,8 +50,6 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     updateTodoList(state, action: PayloadAction<Todo[]>) {
-      console.log(action.payload);
-      console.log(state.todo_list);
       state.todo_list = [...action.payload];
     },
   },

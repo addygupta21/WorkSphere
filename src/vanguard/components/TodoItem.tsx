@@ -17,34 +17,34 @@ const TodoItem: FC<TodoItemProps> = (props) => {
   const { item } = props;
   const dispatch = useDispatch<AppDispatch>();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [modalData, setModalData] = useState<{
-    title: string;
-    description: string;
-    dueDate: string;
-    priority: string;
-    status: string;
-    completed: boolean;
-    subTodos: [];
-  }>({
-    title: item.item,
-    description: item.description,
-    dueDate: item.dueDate,
-    priority: item.priority,
-    status: item.status,
-    completed: item.completed,
-    subTodos: [],
-  });
+  // const [modalData, setModalData] = useState<{
+  //   title: string;
+  //   description: string;
+  //   dueDate: string;
+  //   priority: string;
+  //   status: string;
+  //   completed: boolean;
+  //   subTodos: [];
+  // }>({
+  //   title: item.item,
+  //   description: item.description,
+  //   dueDate: item.dueDate,
+  //   priority: item.priority,
+  //   status: item.status,
+  //   completed: item.completed,
+  //   subTodos: [],
+  // });
 
   const enableEditing = () => {
-    setModalData({
-      title: item.item,
-      description: item.description,
-      dueDate: item.dueDate,
-      priority: item.priority,
-      status: item.status,
-      completed: item.completed,
-      subTodos: [],
-    });
+    // setModalData({
+    //   title: item.item,
+    //   description: item.description,
+    //   dueDate: item.dueDate,
+    //   priority: item.priority,
+    //   status: item.status,
+    //   completed: item.completed,
+    //   subTodos: [],
+    // });
 
     setShowModal(true);
   };
@@ -213,15 +213,15 @@ const TodoItem: FC<TodoItemProps> = (props) => {
         <AddTodoModal
           onClose={() => setShowModal(false)}
           todo={{
-            id: item.id,
-            ...modalData, // to keep store of the previous values of the form data.
-            item: modalData.title,
-            description: modalData.description,
-            dueDate: modalData.dueDate,
-            priority: modalData.priority,
-            status: modalData.status,
-            completed: modalData.completed,
-            subTodos: [],
+            // id: item.id,
+            ...item, // to keep store of the previous values of the form data.
+            // item: modalData.title,
+            // description: modalData.description,
+            // dueDate: modalData.dueDate,
+            // priority: modalData.priority,
+            // status: modalData.status,
+            // completed: modalData.completed,
+            // subTodos: [],
           }}
         />
       )}

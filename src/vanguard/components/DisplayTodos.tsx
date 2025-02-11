@@ -21,14 +21,13 @@ const DisplayTodos: React.FC = () => {
 
   useEffect(() => {
     try {
-      todoService.setupSubscription(filter, sort, dispatch);
+      todoService.setupSubscription(filter, sort);
       const subscriptionToken = bridge.subscribe(
         EVENTS.TODOS_FETCHED,
         (todos: Todo[]) => {
           dispatch(updateTodoList(todos));
         }
       );
-
       return () => {
         bridge.unsubscribe(subscriptionToken);
       };
@@ -36,7 +35,7 @@ const DisplayTodos: React.FC = () => {
       console.error("Error subscribing to live todos:", err);
       alert("Failed to subscribe to live todos.");
     }
-  }, [dispatch, filter, sort]);
+  }, [filter, sort]);
 
   return (
     <div className="displayTodos">
@@ -49,10 +48,12 @@ const DisplayTodos: React.FC = () => {
             <option value={STATUS.IN_PROGRESS}>In Progress</option>
             <option value={STATUS.NOT_STARTED}>Not Started</option>
           </select>
+
           <select onChange={(e) => setSort(e.target.value)} value={sort}>
             <option value={SORTING.PRIORITY}>Sort by Priority</option>
             <option value={SORTING.DUE_DATE}>Sort by Due Date</option>
           </select>
+          
           <button
             className="add-btn-1"
             onClick={(e) => {
@@ -64,10 +65,11 @@ const DisplayTodos: React.FC = () => {
           </button>
         </div>
       </div>
+
       <div className="todo-list-container">
         <ul>
           {(todos1 && Array.isArray(todos1) ? todos1 : []).map((todo) => (
-            <TodoItem key={todo.id} item={todo} />
+            <TodoItem item={todo} />
           ))}
         </ul>
       </div>

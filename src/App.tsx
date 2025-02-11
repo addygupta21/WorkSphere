@@ -9,11 +9,9 @@ const App: React.FC = () => {
   useEffect(() => {
     registerTodoListeners();
   }, []);
+
   return (
     <div className="App">
-      <h1 className="text" style={{ color: "black" }}>
-    
-      </h1>
       <DisplayTodos />
     </div>
   );
