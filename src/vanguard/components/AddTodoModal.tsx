@@ -70,12 +70,14 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
+
         <div className="modal-header">
           <h2>Add New Todo</h2>
           <button className="close-btn" onClick={onClose}>
             <GoX />
           </button>
         </div>
+
         <div className="modal-body">
           <div className="modal-1">
             <input
@@ -86,6 +88,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
               className="todo-input-1"
             />
           </div>
+
           <div className="modal-2">
             <textarea
               placeholder="Description"
@@ -94,6 +97,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
               className="todo-input-2"
             />
           </div>
+
           <div className="modal-3">
             <input
               type="date"
@@ -122,6 +126,7 @@ const AddTodoModal: React.FC<AddTodoModalProps> = (props) => {
               Save
             </button>
           </div>
+          
         </div>
       </div>
     </div>

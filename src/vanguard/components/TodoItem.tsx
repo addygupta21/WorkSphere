@@ -13,11 +13,11 @@ interface TodoItemProps {
   item: Todo;
 }
 
-const TodoItem: FC<TodoItemProps> = (props) => {
+const TodoItem: React.FC<TodoItemProps> = (props) => {
   const { item } = props;
   const dispatch = useDispatch<AppDispatch>();
   const [showModal, setShowModal] = useState<boolean>(false);
-  
+
   const enableEditing = () => {
     setShowModal(true);
   };
@@ -135,6 +135,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
   return (
     <li className="todo-item">
       <div className="contained-1">
+
         <div className="todo-item-container-1">
           <div
             className="div-1"
@@ -181,6 +182,7 @@ const TodoItem: FC<TodoItemProps> = (props) => {
             Delete
           </button>
         </div>
+        
       </div>
       {showModal && (
         <AddTodoModal onClose={() => setShowModal(false)} todo={{ ...item }} />
