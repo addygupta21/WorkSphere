@@ -15,6 +15,15 @@ WorkSphere is a task management application designed to help users organize and 
 ## Use Case
 WorkSphere is ideal for individuals and teams looking to manage their tasks and to-do lists effectively. It can be used for personal task management, project planning, and team collaboration. The application helps users stay organized and ensures that important tasks are prioritized and completed on time.
 
+## Architecture
+
+Its architecture is based on the Publisher-Subscriber Design Pattern and comprises the following components:
+ - Vanguard: Serves as the primary front-end layer, where components and the Redux store are developed.
+ - Tailgate: Functions as the secondary front-end layer, managing data storage in IndexedDB (IDB) with a live query setup using Dexie for persistent database storage.
+ - Bridge: Acts as the intermediary between Vanguard and Tailgate, facilitating the integration of the overall design.
+   
+Advantage: This architecture significantly enhances front-end performance and allows for seamless replacement of the Vanguard component while maintaining the existing database in the Tailgate.
+
 ## Tech Stacks
 - **Frontend**: React, Redux, TypeScript
 - **Backend**: Dexie.js (IndexedDB wrapper)
