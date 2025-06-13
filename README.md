@@ -40,7 +40,7 @@ Advantage: This architecture significantly enhances front-end performance and al
 
  - Step 1: Open the terminal, 'git clone git@github.com:addygupta21/WorkSphere.git'
  - Step 2: Install the required packages using 'npm install'
- - Step 3: Start the project on localhost using 'npm run start'
+ - Step 3: Start the project on localhost using 'npm run start'.
 
 
 ## Project Images
